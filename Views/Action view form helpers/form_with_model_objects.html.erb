@@ -1,0 +1,33 @@
+<!---------- Binding a Form to an Object --------------->
+
+<!--Example -->
+<%= form_with model: @article do |form| %>
+  <%= form.text_field :title %>
+  <%= form.text_area :body, size: "60x10" %>
+  <%= form.submit %>
+<% end %>
+
+<!-- The fields_for Helper -->
+<%= form_with model: @person do |person_form| %>
+  <%= person_form.text_field :name %>
+  <%= fields_for :contact_detail, @person.contact_detail do |contact_detail_form| %>
+    <%= contact_detail_form.text_field :phone_number %>
+  <% end %>
+<% end %>
+
+<!---------- Relying on Record Identification --------------->
+
+<!-- Examples: -->
+
+<!-- Creating a new article -->
+<%# form_with(model: @article) %>
+
+<!-- With patch method-->
+<%# form_with(url: search_path, method: "patch") %>
+
+<!-- Dealing with Namespaces -->
+<%# form_with model: [:admin, @article] %>
+
+
+
+
