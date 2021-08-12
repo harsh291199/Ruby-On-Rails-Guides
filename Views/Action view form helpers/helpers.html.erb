@@ -1,0 +1,91 @@
+<!-------- Making Select Boxes with Ease ---------->
+
+<%= form.select :city, ["Berlin", "Chicago", "Madrid"] %>
+
+<%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]] %>
+
+<%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]], selected: "CHI" %>
+
+<!-- Option Groups -->
+<%= form.select :city,
+      {
+        "Europe" => [ ["Berlin", "BE"], ["Madrid", "MD"] ],
+        "North America" => [ ["Chicago", "CHI"] ],
+      },
+      selected: "CHI" %>
+
+<!-- Select Boxes and Model Objects -->
+
+<%# @person = Person.new(city: "MD") %>
+
+<%= form_with model: @person do |form| %>
+  <%= form.select :city, [["Berlin", "BE"], ["Chicago", "CHI"], ["Madrid", "MD"]] %>
+<% end %>
+
+<!-- Time Zone and Country Select -->
+<%= form.time_zone_select :time_zone %>
+
+
+<!-------- Using Date and Time Form Helpers ----------->
+
+<%# @person = Person.new(birth_date: Date.new(1995, 12, 21)) %>
+
+<%= form_with model: @person do |form| %>
+  <%= form.date_select :birth_date %>
+<% end %>
+
+<!-- Select Boxes for Individual Temporal Components -->
+<%= select_year 1999, prefix: "party" %>
+
+
+<!-------- Choices from a Collection of Arbitrary Objects ----------->
+
+<!-- The collection_select Helper-->
+<%= form.collection_select :city_id, City.order(:name), :id, :name %>
+
+<!-- The collection_radio_buttons Helper -->
+<%= form.collection_radio_buttons :city_id, City.order(:name), :id, :name %>
+
+<!-- The collection_check_boxes Helper -->
+<%= form.collection_check_boxes :city_id, City.order(:name), :id, :name %>
+
+
+<!-------- Uploading Files ----------->
+
+<%= form_with url: "/uploads", multipart: true do |form| %>
+  <%= form.file_field :picture %>
+<% end %>
+
+<!-------- Customizing Form Builders ----------->
+
+<%= form_with model: @person, builder: LabellingFormBuilder do |form| %>
+  <%= form.text_field :first_name %>
+<% end %>
+
+<!-- class LabellingFormBuilder -->
+<%# class LabellingFormBuilder < ActionView::Helpers::FormBuilder
+  def text_field(attribute, options={})
+    label(attribute) + super
+  end
+end %>
+
+
+<!-------- Using Tag Helpers Without a Form Builder ----------->
+
+<%= check_box_tag "accept" %>
+
+
+<!-------- Forms to External Resources ----------->
+
+<%= form_with url: 'http://farfar.away/form', authenticity_token: 'external_token' do %>
+  <!-- Form contents -->
+<% end %>
+
+
+<!-------- Parameter Naming Conventions ----------->
+
+<input id="person_name" name="person[name]" type="text" value="Henry"/>
+
+<input id="person_address_city" name="person[address][city]" type="text" value="New York"/>
+
+
